@@ -42,7 +42,7 @@ KeepFormat.checked = parent.localStorage.KeepFormat == "true";\
 <font color=red>一行一个</font><br>\
 <input type="checkbox" id="UseRichTextSign"><label for="UseRichTextSign">使用富文本签名</label><br>\
 <textarea style="width:100%; height:167px" wrap="off" id="RichTextSign"></textarea><br>\
-<font color=red>视频SWF播放器地址或图片地址</font><br>\
+<font color=red>视频SWF播放器地址或图片，图片格式：宽x高 图片地址</font><br>\
 <!-- <input type="checkbox" id="UseUnicode"><label for="UseUnicode">使用Unicode码(可以发繁体字、部分和谐内容)</label><br> -->\
 <input type="checkbox" id="KeepFormat"><label for="KeepFormat">保持格式</label>\
 ';
