@@ -53,14 +53,18 @@ SOFTWARE.
 			UE.instants.ueditorInstant0.getContent = function() {
 				var result = UE.Editor.prototype.getContent.call(this).replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/(^(<br\/>)+)|((<br\/>)+$)/g, "");
 
+				// 保持格式
+				if (localStorage.KeepFormat == "true")
+					result = result.replace(/( |&nbsp;)( |&nbsp;)/g,"　　").replace(/<br\/>/g,"<br>");
+
 				// Unicode
-				/*if (localStorage.bUnicode == "true") {
+				/*if (localStorage.UseUnicode == "true") {
 					result = toUnicode(result);
 					result = result.replace(/&\011#60;&\011#98;&\011#114;&\011#47;&\011#62;/g, "<br>");
 				}*/
 				
-				var hasTextSign = localStorage.bText == "true" && localStorage.Text !== "";
-				var hasRichTextSign = localStorage.bRichText == "true" && localStorage.RichText !== "";
+				var hasTextSign = localStorage.UseTextSign == "true" && localStorage.TextSign != "";
+				var hasRichTextSign = localStorage.UseRichTextSign == "true" && localStorage.RichTextSign != "";
 				if (!hasTextSign && !hasRichTextSign)
 					return result;
 
@@ -68,7 +72,7 @@ SOFTWARE.
 
 				// 文字签名
 				if (hasTextSign) {
-					var signs = localStorage.Text.split("\n");
+					var signs = localStorage.TextSign.split("\n");
 					result += toHTML(signs[random(signs.length)]);
 				}
 
@@ -77,7 +81,7 @@ SOFTWARE.
 					if (hasTextSign)
 						result += "<br>";
 
-					var signs = localStorage.RichText.split("\n");
+					var signs = localStorage.RichTextSign.split("\n");
 					var sign  = signs[random(signs.length)];
 
 					var ext = sign.substring(sign.length - 4).toLowerCase();
@@ -102,7 +106,7 @@ SOFTWARE.
 				return result;
 			};
 		})();
-	}
+	};
 
 	var script = document.createElement("script");
 	script.innerHTML = "(" + code.toString() + ")();";

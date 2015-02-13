@@ -27,22 +27,25 @@ SOFTWARE.
 		function setting() {
 			var html = '\
 <script>\
-$("#bText")[0].checked = parent.localStorage.bText == "true";\
-if(typeof parent.localStorage.Text == "string"){\
-$("#Text")[0].value = parent.localStorage.Text\
+UseTextSign.checked = parent.localStorage.UseTextSign == "true";\
+if(typeof parent.localStorage.TextSign == "string"){\
+TextSign.value = parent.localStorage.TextSign\
 };\
-$("#bRichText")[0].checked = parent.localStorage.bRichText == "true";\
-if(typeof parent.localStorage.RichText == "string"){\
-$("#RichText")[0].value = parent.localStorage.RichText};\
-//$("#bUnicode")[0].checked = parent.localStorage.bUnicode == "true";\
+UseRichTextSign.checked = parent.localStorage.UseRichTextSign == "true";\
+if(typeof parent.localStorage.RichTextSign == "string"){\
+RichTextSign.value = parent.localStorage.RichTextSign};\
+/*UseUnicode.checked = parent.localStorage.UseUnicode == "true";*/\
+KeepFormat.checked = parent.localStorage.KeepFormat == "true";\
 </script>\
-<input type="checkbox"id="bText"><label for="bText">使用文字签名</label><br>\
-<textarea style="width:100%; height:167px" wrap="off"id="Text"></textarea><br>\
+<input type="checkbox" id="UseTextSign"><label for="UseTextSign">使用文字签名</label><br>\
+<textarea style="width:100%; height:167px" wrap="off" id="TextSign"></textarea><br>\
 <font color=red>一行一个</font><br>\
-<input type="checkbox"id="bRichText"><label for="bRichText">使用富文本签名</label><br>\
-<textarea style="width:100%; height:167px" wrap="off"id="RichText"></textarea><br>\
-<font color=red>视频SWF播放器地址或图片，图片格式：宽x高 图片地址</font><br>\
-<!-- <input type="checkbox"id="bUnicode"><label for="bUnicode">使用Unicode码(可以发繁体字、部分和谐内容)</label> -->';
+<input type="checkbox" id="UseRichTextSign"><label for="UseRichTextSign">使用富文本签名</label><br>\
+<textarea style="width:100%; height:167px" wrap="off" id="RichTextSign"></textarea><br>\
+<font color=red>视频SWF播放器地址或图片地址</font><br>\
+<!-- <input type="checkbox" id="UseUnicode"><label for="UseUnicode">使用Unicode码(可以发繁体字、部分和谐内容)</label><br> -->\
+<input type="checkbox" id="KeepFormat"><label for="KeepFormat">保持格式</label>\
+';
 
 			var i = $.dialog.confirm(html, {
 				title: "设置",
@@ -53,12 +56,13 @@ $("#RichText")[0].value = parent.localStorage.RichText};\
 			i.height(428);
 			i.bind("onaccept",
 			function() {
-				parent.localStorage.bText     = $("#bText")[0].checked;
-				parent.localStorage.Text      = $("#Text")[0].value;
-				parent.localStorage.bRichText = $("#bRichText")[0].checked;
-				parent.localStorage.RichText  = $("#RichText")[0].value;
-				parent.localStorage.bUnicode  = $("#bUnicode")[0].checked;
-			})
+				parent.localStorage.UseTextSign		= UseTextSign.checked;
+				parent.localStorage.TextSign		= TextSign.value;
+				parent.localStorage.UseRichTextSign	= UseRichTextSign.checked;
+				parent.localStorage.RichTextSign	= RichTextSign.value;
+				//parent.localStorage.UseUnicode	= UseUnicode.checked;
+				parent.localStorage.KeepFormat		= KeepFormat.checked;
+			});
 		}
 
 		(function addButton() {
@@ -68,14 +72,14 @@ $("#RichText")[0].value = parent.localStorage.RichText};\
 				setTimeout(addButton, 500);
 				return;
 			};
-			var btn     = document.createElement("input");
-			btn.type    = "button";
-			btn.style.height = "100%";
-			btn.value   = "发贴助手设置";
-			btn.onclick = setting;
+			var btn = document.createElement("input");
+			btn.type		= "button";
+			btn.style.height	= "100%";
+			btn.value		= "发贴助手设置";
+			btn.onclick		= setting;
 			target.appendChild(btn);
 		})();
-	}
+	};
 
 	var script = document.createElement("script");
 	script.innerHTML = "(" + code.toString() + ")();";
