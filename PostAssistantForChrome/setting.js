@@ -42,7 +42,7 @@ KeepFormat.checked = parent.localStorage.KeepFormat == "true";\
 <font color=red>一行一个</font><br>\
 <input type="checkbox" id="UseRichTextSign"><label for="UseRichTextSign">使用富文本签名</label><br>\
 <textarea style="width:100%; height:167px" wrap="off" id="RichTextSign"></textarea><br>\
-<font color=red>视频SWF播放器地址或图片，图片格式：宽x高 图片地址</font><br>\
+<font color=red>视频SWF播放器地址或图片，图片格式：宽x高 图片地址，省略宽高或宽高为0将自动获取(可能失败)</font><br>\
 <!-- <input type="checkbox" id="UseUnicode"><label for="UseUnicode">使用Unicode码(可以发繁体字、部分和谐内容)</label><br> -->\
 <input type="checkbox" id="KeepFormat"><label for="KeepFormat">保持格式</label>\
 ';
@@ -53,7 +53,7 @@ KeepFormat.checked = parent.localStorage.KeepFormat == "true";\
 				cancelValue: "取消"
 			});
 			i.width(420);
-			i.height(428);
+			i.height(440);
 			i.bind("onaccept",
 			function() {
 				parent.localStorage.UseTextSign		= UseTextSign.checked;
@@ -62,6 +62,7 @@ KeepFormat.checked = parent.localStorage.KeepFormat == "true";\
 				parent.localStorage.RichTextSign	= RichTextSign.value;
 				//parent.localStorage.UseUnicode	= UseUnicode.checked;
 				parent.localStorage.KeepFormat		= KeepFormat.checked;
+				getImageSize();
 			});
 		}
 
@@ -79,6 +80,44 @@ KeepFormat.checked = parent.localStorage.KeepFormat == "true";\
 			btn.onclick		= setting;
 			target.appendChild(btn);
 		})();
+
+		function getImageSize() {
+			if (typeof localStorage.RichTextSign != "string")
+				return;
+			var signs = localStorage.RichTextSign.split("\n");
+			var imageExp = /(\d+)x(\d+) (.*)/;
+			var modified = false;
+			for (var i in signs) {
+				var ext = signs[i].substring(signs[i].length - 4).toLowerCase();
+				if (! (ext == ".jpg" || ext == ".gif" || ext == ".png")) // 是视频
+					continue;
+
+				var match = imageExp.exec(signs[i]);
+				if (match != null) { // 指定尺寸
+					localStorage[match[3]] = match[1] + "x" + match[2];
+					signs[i] = match[3];
+					modified = true;
+				}
+				else {
+					var size = typeof localStorage[signs[i]] == "string" ? localStorage[signs[i]].split("x") : [];
+					// 需要获取尺寸
+					if (size.length != 2 || parseInt(size[0]) <= 0 || parseInt(size[1]) <= 0) {
+						var img = new Image();
+						img.src = signs[i];
+						img.onload = function() {
+							localStorage[this.src] = this.width + "x" + this.height;
+						}
+					}
+				}
+			}
+			if (modified) { // 需要改变localStorage
+				var str = signs[0];
+				for (var i = 1; i < signs.length; i++)
+					str += "\n" + signs[i];
+				localStorage.RichTextSign = str;
+			}
+		}
+		getImageSize();
 	};
 
 	var script = document.createElement("script");

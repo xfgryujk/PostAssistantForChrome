@@ -88,19 +88,22 @@ SOFTWARE.
 					if (! (ext == ".jpg" || ext == ".gif" || ext == ".png")) // 是视频
 						result += '<embed class="BDE_Flash" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" wmode="transparent" play="true" loop="false" menu="false" src="' + sign + '" width="500" height="450" allowscriptaccess="never" allowfullscreen="true" scale="noborder">';
 					else { // 是图片
-						result += sign.replace(/(\d+)x(\d+) (.*)/gmi,
-						function(m, width, height, url) {
-							width  = parseInt(width);
-							height = parseInt(height);
-							if (width > 560 || height > 600) {
-								var scale1 = 560 / width;
-								var scale2 = 600 / height;
-								var scale  = scale1 < scale2 ? scale1 : scale2;
-								width  = parseInt(width  * scale);
-								height = parseInt(height * scale);
-							}
-							return '<img class="BDE_Image" src="' + url + '" unselectable="on" pic_type="1" height="' + height + '" width="' + width + '"/>';
-						});
+						var width = 500, height = 500;
+						var size = typeof localStorage[sign] == "string" ? localStorage[sign].split("x") : [];
+						if (size.length != 2 || parseInt(size[0]) <= 0 || parseInt(size[1]) <= 0)
+							alert("╮(╯_╰)╭图片尺寸获取失败，默认500x500");
+						else {
+							width  = parseInt(size[0]);
+							height = parseInt(size[1]);
+						}
+						if (width > 560 || height > 600) {
+							var scale1 = 560 / width;
+							var scale2 = 600 / height;
+							var scale  = scale1 < scale2 ? scale1 : scale2;
+							width  = parseInt(width  * scale);
+							height = parseInt(height * scale);
+						}
+						result += '<img class="BDE_Image" src="' + sign + '" unselectable="on" pic_type="1" height="' + height + '" width="' + width + '"/>';
 					}
 				}
 				return result;

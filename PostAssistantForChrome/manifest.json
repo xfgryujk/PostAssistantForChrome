@@ -1,7 +1,7 @@
 ﻿{
 	"manifest_version": 2,
 	"name": "发贴助手",
-	"version": "1.1",
+	"version": "1.1.2",
 	"description": "by 盗我原号的没J8，更新、IE内核版下载：http://pan.baidu.com/s/1i3ooIFz，此程序通过MIT协议开源，你可以在https://github.com/xfgryujk/PostAssistantForChrome得到源码，欢迎完善程序",
 	"content_scripts": [{
 		"matches": ["http://tieba.baidu.com/f*", "http://tieba.baidu.com/p*"],
