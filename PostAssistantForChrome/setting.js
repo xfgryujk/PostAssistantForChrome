@@ -34,7 +34,7 @@ TextSign.value = parent.localStorage.TextSign\
 UseRichTextSign.checked = parent.localStorage.UseRichTextSign == "true";\
 if(typeof parent.localStorage.RichTextSign == "string"){\
 RichTextSign.value = parent.localStorage.RichTextSign};\
-/*UseUnicode.checked = parent.localStorage.UseUnicode == "true";*/\
+UseUnicode.checked = parent.localStorage.UseUnicode == "true";\
 KeepFormat.checked = parent.localStorage.KeepFormat == "true";\
 </script>\
 <input type="checkbox" id="UseTextSign"><label for="UseTextSign">使用文字签名</label><br>\
@@ -43,7 +43,7 @@ KeepFormat.checked = parent.localStorage.KeepFormat == "true";\
 <input type="checkbox" id="UseRichTextSign"><label for="UseRichTextSign">使用富文本签名</label><br>\
 <textarea style="width:100%; height:167px" wrap="off" id="RichTextSign"></textarea><br>\
 <font color=red>视频SWF播放器地址或图片，图片格式：宽x高 图片地址，省略宽高或宽高为0将自动获取(可能失败)</font><br>\
-<!-- <input type="checkbox" id="UseUnicode"><label for="UseUnicode">使用Unicode码(可以发繁体字、部分和谐内容)</label><br> -->\
+<input type="checkbox" id="UseUnicode"><label for="UseUnicode">使用Unicode码(可以发繁体字、部分和谐内容)</label><br>\
 <input type="checkbox" id="KeepFormat"><label for="KeepFormat">保持格式</label>\
 ';
 
@@ -53,14 +53,14 @@ KeepFormat.checked = parent.localStorage.KeepFormat == "true";\
 				cancelValue: "取消"
 			});
 			i.width(420);
-			i.height(440);
+			i.height(500);
 			i.bind("onaccept",
 			function() {
 				parent.localStorage.UseTextSign		= UseTextSign.checked;
 				parent.localStorage.TextSign		= TextSign.value;
 				parent.localStorage.UseRichTextSign	= UseRichTextSign.checked;
 				parent.localStorage.RichTextSign	= RichTextSign.value;
-				//parent.localStorage.UseUnicode	= UseUnicode.checked;
+				parent.localStorage.UseUnicode	= UseUnicode.checked;
 				parent.localStorage.KeepFormat		= KeepFormat.checked;
 				getImageSize();
 			});

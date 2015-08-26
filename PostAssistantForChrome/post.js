@@ -27,7 +27,7 @@ SOFTWARE.
 		function toUnicode(text) {
 			var result = "";
 			for (var i = 0; i < text.length; i++)
-				result += "&\011#" + text.charCodeAt(i) + ";";
+				result += "𠀦#" + text.charCodeAt(i) + ";";
 			return result;
 		}
 
@@ -53,15 +53,15 @@ SOFTWARE.
 			UE.instants.ueditorInstant0.getContent = function() {
 				var result = UE.Editor.prototype.getContent.call(this).replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/(^(<br\/>)+)|((<br\/>)+$)/g, "");
 
+				// Unicode
+				if (localStorage.UseUnicode == "true") {
+					result = toUnicode(result);
+					result = result.replace(/𠀦#60;𠀦#98;𠀦#114;𠀦#47;𠀦#62;/g, "<br>");
+				}
+
 				// 保持格式
 				if (localStorage.KeepFormat == "true")
 					result = result.replace(/( |&nbsp;)( |&nbsp;)/g,"　　").replace(/<br\/>/g,"<br>");
-
-				// Unicode
-				/*if (localStorage.UseUnicode == "true") {
-					result = toUnicode(result);
-					result = result.replace(/&\011#60;&\011#98;&\011#114;&\011#47;&\011#62;/g, "<br>");
-				}*/
 				
 				var hasTextSign = localStorage.UseTextSign == "true" && localStorage.TextSign != "";
 				var hasRichTextSign = localStorage.UseRichTextSign == "true" && localStorage.RichTextSign != "";
